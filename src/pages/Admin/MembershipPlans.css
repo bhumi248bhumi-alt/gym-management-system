@@ -1,0 +1,282 @@
+.membership-page {
+  padding: 30px;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+/* Header */
+
+.membership-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.membership-header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #1f2937;
+}
+
+.membership-header p {
+  margin-top: 6px;
+  color: #6b7280;
+}
+
+.add-plan-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.add-plan-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Form */
+
+.plan-form-card {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.plan-form-card h2 {
+  margin-top: 0;
+  margin-bottom: 22px;
+  color: #1f2937;
+}
+
+.plan-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.save-plan-btn,
+.cancel-plan-btn {
+  padding: 11px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.save-plan-btn {
+  background: #16a34a;
+  color: white;
+}
+
+.cancel-plan-btn {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+/* Plans section */
+
+.plans-section {
+  margin-top: 20px;
+}
+
+.plans-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.plans-section-header h2 {
+  color: #1f2937;
+}
+
+.plans-section-header span {
+  background: #e5e7eb;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: #374151;
+  font-size: 13px;
+}
+
+/* Cards */
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  border: 1px solid #eef0f4;
+}
+
+.plan-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.plan-card-top h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #1f2937;
+}
+
+.plan-status {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.plan-status.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.plan-status.inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.plan-price {
+  font-size: 30px;
+  font-weight: 700;
+  color: #2563eb;
+  margin-top: 20px;
+}
+
+.plan-duration {
+  margin-top: 8px;
+  color: #6b7280;
+}
+
+.plan-description {
+  color: #6b7280;
+  line-height: 1.6;
+  min-height: 50px;
+  margin-top: 15px;
+}
+
+.plan-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.edit-plan-btn,
+.delete-plan-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.edit-plan-btn {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.delete-plan-btn {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* Empty */
+
+.empty-plans {
+  background: white;
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 14px;
+}
+
+.empty-icon {
+  font-size: 45px;
+}
+
+.empty-plans h3 {
+  color: #374151;
+}
+
+.empty-plans p {
+  color: #6b7280;
+}
+
+/* Responsive */
+
+@media (max-width: 1000px) {
+  .plans-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .membership-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .plan-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+}

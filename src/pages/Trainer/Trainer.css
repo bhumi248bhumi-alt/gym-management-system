@@ -1,0 +1,228 @@
+.trainer-page {
+  min-height: 100vh;
+  padding: 30px;
+  background: #f5f7fb;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.trainer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.trainer-header h1 {
+  margin: 0 0 6px;
+  color: #111827;
+}
+
+.trainer-header p {
+  margin: 0;
+  color: #6b7280;
+}
+
+.trainer-add-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 11px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.trainer-add-btn:hover {
+  background: #1d4ed8;
+}
+
+.trainer-form-card,
+.trainer-table-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 25px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+}
+
+.trainer-form-header,
+.trainer-table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.trainer-form-header h2,
+.trainer-table-header h2 {
+  margin: 0;
+  color: #111827;
+}
+
+.trainer-table-header span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.trainer-close-btn {
+  border: none;
+  background: #f3f4f6;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.trainer-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.trainer-form-grid label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.trainer-form-grid input,
+.trainer-form-grid select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.trainer-form-grid input:focus,
+.trainer-form-grid select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.trainer-form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.trainer-cancel-btn {
+  border: 1px solid #d1d5db;
+  background: white;
+  padding: 10px 17px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.trainer-save-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.trainer-table-container {
+  overflow-x: auto;
+}
+
+.trainer-table-card table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.trainer-table-card th {
+  background: #f9fafb;
+  color: #6b7280;
+  font-size: 12px;
+  text-align: left;
+  padding: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.trainer-table-card td {
+  padding: 15px 14px;
+  font-size: 13px;
+  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.trainer-table-card tbody tr:hover {
+  background: #f9fafb;
+}
+
+.trainer-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.trainer-status.active {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.trainer-status.inactive {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.trainer-edit-btn {
+  border: none;
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+}
+
+.trainer-delete-btn {
+  border: none;
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 7px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.trainer-edit-btn:hover {
+  background: #dbeafe;
+}
+
+.trainer-delete-btn:hover {
+  background: #fee2e2;
+}
+
+.no-trainers {
+  text-align: center;
+  padding: 40px !important;
+  color: #9ca3af !important;
+}
+
+@media (max-width: 700px) {
+  .trainer-page {
+    padding: 20px;
+  }
+
+  .trainer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .trainer-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
