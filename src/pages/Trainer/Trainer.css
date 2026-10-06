@@ -1,228 +1,2578 @@
-.trainer-page {
-  min-height: 100vh;
-  padding: 30px;
-  background: #f5f7fb;
+/* =========================================
+   TRAINER DASHBOARD
+========================================= */
+
+* {
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
 }
 
-.trainer-header {
+.trainer-layout {
+  min-height: 100vh;
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  background:
+    radial-gradient(
+      circle at 70% 10%,
+      rgba(37, 99, 235, 0.08),
+      transparent 30%
+    ),
+    #050b16;
+  color: #ffffff;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.trainer-sidebar {
+  width: 255px;
+  min-height: 100vh;
+  background: rgba(8, 15, 28, 0.96);
+  border-right: 1px solid rgba(148, 163, 184, 0.1);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+
+/* LOGO */
+
+.trainer-logo {
+  display: flex;
   align-items: center;
-  margin-bottom: 25px;
+  gap: 11px;
+  padding: 5px 10px 25px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
 }
 
-.trainer-header h1 {
-  margin: 0 0 6px;
-  color: #111827;
+.trainer-logo-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #3b82f6
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.25);
 }
 
-.trainer-header p {
+.trainer-logo div:last-child {
+  display: flex;
+  flex-direction: column;
+}
+
+.trainer-logo strong {
+  font-size: 16px;
+  letter-spacing: 0.8px;
+}
+
+.trainer-logo span {
+  color: #60a5fa;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+
+/* =========================================
+   PROFILE
+========================================= */
+
+.trainer-profile {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 20px 10px;
+  margin-bottom: 5px;
+}
+
+.trainer-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #60a5fa
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow:
+    0 8px 20px rgba(37, 99, 235, 0.25);
+}
+
+.trainer-profile div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.trainer-profile strong {
+  font-size: 13px;
+  color: #f8fafc;
+}
+
+.trainer-profile span {
+  font-size: 11px;
+  color: #64748b;
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.trainer-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 3px;
+}
+
+.trainer-nav-title {
+  color: #475569;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  padding: 8px 12px 10px;
   margin: 0;
-  color: #6b7280;
 }
 
-.trainer-add-btn {
+.trainer-nav-item {
+  width: 100%;
+  height: 43px;
   border: none;
-  background: #2563eb;
-  color: white;
-  padding: 11px 18px;
-  border-radius: 8px;
+  background: transparent;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 12px;
+  border-radius: 10px;
   cursor: pointer;
+  font-size: 13px;
   font-weight: 600;
+  text-align: left;
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
 }
 
-.trainer-add-btn:hover {
-  background: #1d4ed8;
+.trainer-nav-item span {
+  width: 21px;
+  text-align: center;
+  font-size: 16px;
 }
 
-.trainer-form-card,
-.trainer-table-card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 25px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+.trainer-nav-item:hover {
+  background: rgba(37, 99, 235, 0.08);
+  color: #cbd5e1;
 }
 
-.trainer-form-header,
-.trainer-table-header {
+.trainer-nav-item.active {
+  color: #ffffff;
+  background: linear-gradient(
+    90deg,
+    rgba(37, 99, 235, 0.25),
+    rgba(37, 99, 235, 0.08)
+  );
+  border-left: 3px solid #3b82f6;
+  padding-left: 9px;
+  box-shadow:
+    inset 0 0 25px rgba(37, 99, 235, 0.04);
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.trainer-logout {
+  height: 44px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.5);
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trainer-logout:hover {
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+
+/* =========================================
+   MAIN
+========================================= */
+
+.trainer-main {
+  width: calc(100% - 255px);
+  margin-left: 255px;
+  min-height: 100vh;
+}
+
+
+/* =========================================
+   TOP BAR
+========================================= */
+
+.trainer-topbar {
+  height: 76px;
+  padding: 0 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+  background: rgba(5, 11, 22, 0.72);
+  backdrop-filter: blur(15px);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.trainer-topbar h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.trainer-topbar p {
+  margin: 3px 0 0;
+  color: #475569;
+  font-size: 11px;
+}
+
+.trainer-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+
+/* NOTIFICATION */
+
+.trainer-notification {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.7);
+  color: #94a3b8;
+  cursor: pointer;
+  position: relative;
+  font-size: 15px;
+}
+
+.trainer-notification span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+  position: absolute;
+  right: 8px;
+  top: 7px;
+  border: 1px solid #050b16;
+}
+
+
+/* TOP PROFILE */
+
+.trainer-top-profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.trainer-mini-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #2563eb,
+    #60a5fa
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+}
+
+.trainer-top-profile div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trainer-top-profile strong {
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+.trainer-top-profile small {
+  color: #475569;
+  font-size: 10px;
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.trainer-content {
+  padding: 32px 35px 45px;
+  max-width: 1500px;
+}
+
+
+/* =========================================
+   WELCOME
+========================================= */
+
+.trainer-welcome {
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 28px;
+}
+
+.trainer-small-title {
+  color: #3b82f6 !important;
+  font-size: 10px !important;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin: 0 0 8px !important;
+}
+
+.trainer-welcome h1 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 31px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+}
+
+.trainer-welcome h1 span {
+  color: #60a5fa;
+}
+
+.trainer-welcome > div > p:last-child {
+  color: #64748b;
+  font-size: 13px;
+  margin: 9px 0 0;
+}
+
+.trainer-date {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(15, 23, 42, 0.6);
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+
+/* =========================================
+   STAT CARDS
+========================================= */
+
+.trainer-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.trainer-stat-card {
+  min-height: 135px;
+  padding: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 16px;
+  background: rgba(10, 18, 32, 0.82);
+  display: flex;
   align-items: center;
+  gap: 15px;
+  transition: all 0.25s ease;
+}
+
+.trainer-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.trainer-stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.trainer-stat-icon.blue {
+  background: rgba(37, 99, 235, 0.13);
+}
+
+.trainer-stat-icon.purple {
+  background: rgba(139, 92, 246, 0.13);
+}
+
+.trainer-stat-icon.green {
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.trainer-stat-icon.orange {
+  background: rgba(249, 115, 22, 0.1);
+}
+
+.trainer-stat-card p {
+  margin: 0 0 5px;
+  color: #64748b;
+  font-size: 11px;
+}
+
+.trainer-stat-card h2 {
+  margin: 0;
+  color: #f8fafc;
+  font-size: 27px;
+  line-height: 1;
+}
+
+.trainer-stat-card span {
+  display: block;
+  color: #475569;
+  font-size: 10px;
+  margin-top: 6px;
+}
+
+
+/* =========================================
+   DASHBOARD GRID
+========================================= */
+
+.trainer-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+
+.trainer-panel {
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 16px;
+  background: rgba(10, 18, 32, 0.82);
+  padding: 22px;
+}
+
+.trainer-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
   margin-bottom: 20px;
 }
 
-.trainer-form-header h2,
-.trainer-table-header h2 {
+.trainer-panel-header h2 {
   margin: 0;
-  color: #111827;
+  color: #f8fafc;
+  font-size: 16px;
 }
 
-.trainer-table-header span {
-  color: #6b7280;
-  font-size: 13px;
+.trainer-panel-header p {
+  margin: 5px 0 0;
+  color: #475569;
+  font-size: 11px;
 }
 
-.trainer-close-btn {
+.trainer-panel-header button {
   border: none;
-  background: #f3f4f6;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 20px;
+  background: transparent;
+  color: #60a5fa;
+  font-size: 11px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.trainer-form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+.trainer-panel-header button:hover {
+  text-decoration: underline;
 }
 
-.trainer-form-grid label {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  color: #374151;
-}
 
-.trainer-form-grid input,
-.trainer-form-grid select {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 11px 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  outline: none;
-}
+/* =========================================
+   SESSION LIST
+========================================= */
 
-.trainer-form-grid input:focus,
-.trainer-form-grid select:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px #dbeafe;
-}
-
-.trainer-form-buttons {
+.session-list {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+}
+
+.session-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+.session-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.session-item:first-child {
+  padding-top: 3px;
+}
+
+.session-time {
+  width: 55px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.session-time strong {
+  color: #e2e8f0;
+  font-size: 14px;
+}
+
+.session-time span {
+  color: #475569;
+  font-size: 9px;
+  margin-top: 2px;
+}
+
+.session-info {
+  flex: 1;
+}
+
+.session-info h3 {
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.session-info p {
+  margin: 4px 0 0;
+  color: #475569;
+  font-size: 10px;
+}
+
+.session-status {
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(37, 99, 235, 0.1);
+  color: #60a5fa;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+.quick-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.quick-actions button {
+  min-height: 78px;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 11px;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
   gap: 10px;
-  margin-top: 22px;
-}
-
-.trainer-cancel-btn {
-  border: 1px solid #d1d5db;
-  background: white;
-  padding: 10px 17px;
-  border-radius: 8px;
+  padding: 12px;
+  color: #ffffff;
+  text-align: left;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.trainer-save-btn {
+.quick-actions button:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-2px);
+}
+
+.quick-actions button > span {
+  width: 35px;
+  height: 35px;
+  border-radius: 9px;
+  background: rgba(37, 99, 235, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.quick-actions button div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.quick-actions strong {
+  color: #cbd5e1;
+  font-size: 10px;
+}
+
+.quick-actions small {
+  color: #475569;
+  font-size: 8px;
+  line-height: 1.3;
+}
+
+
+/* =========================================
+   COMING SOON
+========================================= */
+
+.trainer-coming-soon {
+  min-height: 500px;
+  border: 1px solid rgba(148, 163, 184, 0.09);
+  border-radius: 18px;
+  background: rgba(10, 18, 32, 0.82);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.coming-soon-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: rgba(37, 99, 235, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 18px;
+}
+
+.trainer-coming-soon h2 {
+  margin: 0;
+  font-size: 23px;
+  color: #f8fafc;
+}
+
+.trainer-coming-soon p {
+  color: #64748b;
+  font-size: 13px;
+  margin: 8px 0 20px;
+}
+
+.trainer-coming-soon button {
   border: none;
+  border-radius: 9px;
   background: #2563eb;
   color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.trainer-table-container {
-  overflow-x: auto;
-}
-
-.trainer-table-card table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.trainer-table-card th {
-  background: #f9fafb;
-  color: #6b7280;
+  padding: 10px 17px;
   font-size: 12px;
-  text-align: left;
-  padding: 14px;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.trainer-table-card td {
-  padding: 15px 14px;
-  font-size: 13px;
-  color: #374151;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.trainer-table-card tbody tr:hover {
-  background: #f9fafb;
-}
-
-.trainer-status {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.trainer-status.active {
-  background: #dcfce7;
-  color: #15803d;
-}
-
-.trainer-status.inactive {
-  background: #fee2e2;
-  color: #b91c1c;
-}
-
-.trainer-edit-btn {
-  border: none;
-  background: #eff6ff;
-  color: #2563eb;
-  padding: 7px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-right: 6px;
-}
-
-.trainer-delete-btn {
-  border: none;
-  background: #fef2f2;
-  color: #dc2626;
-  padding: 7px 10px;
-  border-radius: 6px;
+  font-weight: 700;
   cursor: pointer;
 }
 
-.trainer-edit-btn:hover {
-  background: #dbeafe;
+.trainer-coming-soon button:hover {
+  background: #3b82f6;
 }
 
-.trainer-delete-btn:hover {
-  background: #fee2e2;
+
+/* =========================================
+   SCROLLBAR
+========================================= */
+
+.trainer-nav::-webkit-scrollbar {
+  width: 4px;
 }
 
-.no-trainers {
-  text-align: center;
-  padding: 40px !important;
-  color: #9ca3af !important;
+.trainer-nav::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-@media (max-width: 700px) {
-  .trainer-page {
-    padding: 20px;
+.trainer-nav::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
+
+
+/* =========================================
+   RESPONSIVE - 1200px
+========================================= */
+
+@media (max-width: 1200px) {
+  .trainer-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .trainer-header {
-    flex-direction: column;
+  .trainer-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - 900px
+========================================= */
+
+@media (max-width: 900px) {
+  .trainer-sidebar {
+    width: 220px;
+  }
+
+  .trainer-main {
+    width: calc(100% - 220px);
+    margin-left: 220px;
+  }
+
+  .trainer-content {
+    padding: 25px 22px 35px;
+  }
+
+  .trainer-topbar {
+    padding: 0 22px;
+  }
+
+  .trainer-welcome h1 {
+    font-size: 27px;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - 700px
+========================================= */
+
+@media (max-width: 700px) {
+  .trainer-sidebar {
+    width: 72px;
+    padding: 18px 10px;
+  }
+
+  .trainer-logo {
+    justify-content: center;
+    padding: 5px 0 20px;
+  }
+
+  .trainer-logo div:last-child,
+  .trainer-profile div:last-child,
+  .trainer-nav-title,
+  .trainer-nav-item {
+    font-size: 0;
+  }
+
+  .trainer-profile {
+    justify-content: center;
+    padding: 18px 0;
+  }
+
+  .trainer-nav-item {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .trainer-nav-item span {
+    font-size: 17px;
+  }
+
+  .trainer-nav-item.active {
+    padding-left: 0;
+    border-left: none;
+  }
+
+  .trainer-logout {
+    justify-content: center;
+    padding: 0;
+    font-size: 0;
+  }
+
+  .trainer-logout span {
+    font-size: 16px;
+  }
+
+  .trainer-main {
+    width: calc(100% - 72px);
+    margin-left: 72px;
+  }
+
+  .trainer-topbar {
+    padding: 0 18px;
+  }
+
+  .trainer-top-profile div:last-child {
+    display: none;
+  }
+
+  .trainer-content {
+    padding: 22px 16px 30px;
+  }
+
+  .trainer-welcome {
     align-items: flex-start;
     gap: 15px;
   }
 
-  .trainer-form-grid {
+  .trainer-date {
+    white-space: nowrap;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - 550px
+========================================= */
+
+@media (max-width: 550px) {
+  .trainer-stats-grid {
     grid-template-columns: 1fr;
   }
+
+  .trainer-welcome {
+    flex-direction: column;
+  }
+
+  .trainer-welcome h1 {
+    font-size: 24px;
+  }
+
+  .trainer-date {
+    align-self: flex-start;
+  }
+
+  .trainer-topbar {
+    height: 68px;
+  }
+
+  .trainer-topbar h2 {
+    font-size: 16px;
+  }
+
+  .trainer-topbar p {
+    display: none;
+  }
+
+  .trainer-topbar-right {
+    gap: 8px;
+  }
+
+  .trainer-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .trainer-panel {
+    padding: 17px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE - 400px
+========================================= */
+
+@media (max-width: 400px) {
+  .trainer-sidebar {
+    width: 62px;
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+
+  .trainer-main {
+    width: calc(100% - 62px);
+    margin-left: 62px;
+  }
+
+  .trainer-content {
+    padding: 18px 12px 25px;
+  }
+
+  .trainer-stat-card {
+    padding: 17px;
+  }
+
+  .trainer-stat-card h2 {
+    font-size: 24px;
+  }
+
+  .trainer-welcome h1 {
+    font-size: 21px;
+  }
+
+  .trainer-panel-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+/* =========================================
+   MY MEMBERS PAGE
+   ========================================= */
+
+.trainer-members-page {
+  width: 100%;
+  animation: trainerPageFade 0.35s ease;
+}
+
+@keyframes trainerPageFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+
+.trainer-members-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.trainer-members-header h1 {
+  margin: 6px 0 8px;
+  font-size: 32px;
+  font-weight: 750;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.trainer-members-header > div > p:last-child {
+  margin: 0;
+  color: #8f9bb3;
+  font-size: 14px;
+}
+
+.trainer-refresh-btn {
+  border: 1px solid rgba(77, 144, 255, 0.25);
+  background: rgba(32, 43, 67, 0.75);
+  color: #8bbcff;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trainer-refresh-btn:hover {
+  background: rgba(48, 105, 190, 0.25);
+  border-color: rgba(77, 144, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Small blue title */
+
+.trainer-members-header .trainer-small-title {
+  margin: 0;
+  color: #4d9cff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+/* Summary Card */
+
+.trainer-member-summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  min-width: 220px;
+  padding: 17px 22px;
+  margin-bottom: 22px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(24, 37, 61, 0.95),
+    rgba(19, 29, 48, 0.95)
+  );
+
+  border: 1px solid rgba(72, 133, 220, 0.18);
+  border-radius: 14px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.trainer-member-summary-icon {
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background: rgba(49, 126, 255, 0.13);
+  border: 1px solid rgba(69, 143, 255, 0.2);
+
+  font-size: 22px;
+}
+
+.trainer-member-summary span {
+  display: block;
+  color: #7f8ca5;
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+
+.trainer-member-summary strong {
+  display: block;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Main Member Card */
+
+.trainer-members-card {
+  width: 100%;
+  overflow: hidden;
+
+  background: rgba(18, 27, 44, 0.92);
+  border: 1px solid rgba(82, 113, 158, 0.18);
+  border-radius: 16px;
+
+  box-shadow:
+    0 15px 45px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+/* Card Header */
+
+.trainer-members-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 22px 24px;
+
+  border-bottom: 1px solid rgba(105, 126, 159, 0.12);
+}
+
+.trainer-members-card-header h2 {
+  margin: 0 0 5px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.trainer-members-card-header p {
+  margin: 0;
+  color: #77849c;
+  font-size: 12px;
+}
+
+/* Table */
+
+.trainer-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.trainer-members-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+/* Table Heading */
+
+.trainer-members-table thead {
+  background: rgba(27, 39, 61, 0.8);
+}
+
+.trainer-members-table th {
+  padding: 14px 20px;
+
+  color: #78869f;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+
+  text-align: left;
+  white-space: nowrap;
+
+  border-bottom: 1px solid rgba(102, 127, 162, 0.13);
+}
+
+/* Table Rows */
+
+.trainer-members-table tbody tr {
+  transition: background 0.2s ease;
+  border-bottom: 1px solid rgba(91, 112, 143, 0.09);
+}
+
+.trainer-members-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.trainer-members-table tbody tr:hover {
+  background: rgba(47, 111, 207, 0.07);
+}
+
+.trainer-members-table td {
+  padding: 16px 20px;
+
+  color: #b6c1d3;
+  font-size: 13px;
+
+  vertical-align: middle;
+}
+
+/* Member Name */
+
+.trainer-member-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 180px;
+}
+
+.trainer-member-avatar {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #2377ed,
+    #174ba3
+  );
+
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+
+  box-shadow:
+    0 5px 14px rgba(26, 100, 220, 0.25);
+}
+
+.trainer-member-name strong {
+  display: block;
+  color: #f1f5fb;
+  font-size: 13px;
+  font-weight: 650;
+  margin-bottom: 3px;
+}
+
+.trainer-member-name span {
+  display: block;
+  color: #6f7d95;
+  font-size: 10px;
+}
+
+/* Email */
+
+.trainer-members-table td:nth-child(2) {
+  color: #9ba8bc;
+}
+
+/* Phone */
+
+.trainer-members-table td:nth-child(3) {
+  color: #9ba8bc;
+  white-space: nowrap;
+}
+
+/* Plan Badge */
+
+.trainer-plan-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: rgba(115, 82, 218, 0.12);
+  border: 1px solid rgba(135, 102, 231, 0.18);
+
+  color: #b6a5ff;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+/* Status */
+
+.trainer-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: rgba(36, 184, 116, 0.09);
+  border: 1px solid rgba(36, 184, 116, 0.15);
+
+  color: #5fdb9d;
+
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.trainer-status > span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #42d991;
+
+  box-shadow: 0 0 7px rgba(66, 217, 145, 0.55);
+}
+
+.trainer-status.inactive {
+  background: rgba(239, 115, 86, 0.09);
+  border-color: rgba(239, 115, 86, 0.15);
+  color: #f49b86;
+}
+
+.trainer-status.inactive > span {
+  background: #ef7356;
+  box-shadow: 0 0 7px rgba(239, 115, 86, 0.45);
+}
+
+/* View Button */
+
+.trainer-view-btn {
+  padding: 8px 13px;
+
+  border: 1px solid rgba(76, 142, 245, 0.2);
+  border-radius: 8px;
+
+  background: rgba(47, 111, 207, 0.08);
+
+  color: #78b2ff;
+
+  font-size: 11px;
+  font-weight: 650;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trainer-view-btn:hover {
+  background: rgba(47, 111, 207, 0.18);
+  border-color: rgba(76, 142, 245, 0.4);
+  color: #a8ceff;
+  transform: translateY(-1px);
+}
+
+/* Loading / Empty / Error */
+
+.trainer-members-message {
+  min-height: 280px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  text-align: center;
+}
+
+.trainer-loading-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 15px;
+
+  border-radius: 15px;
+
+  background: rgba(48, 125, 242, 0.1);
+  border: 1px solid rgba(48, 125, 242, 0.16);
+
+  font-size: 25px;
+}
+
+.trainer-members-message h3 {
+  margin: 0 0 7px;
+
+  color: #eaf0f8;
+  font-size: 16px;
+}
+
+.trainer-members-message p {
+  max-width: 400px;
+  margin: 0;
+
+  color: #77849b;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.trainer-members-message.error h3 {
+  color: #f19b8a;
+}
+
+.trainer-members-message button {
+  margin-top: 15px;
+
+  padding: 9px 16px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2678ed;
+  color: white;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.trainer-members-message button:hover {
+  background: #3386f5;
+}
+
+/* =========================================
+   MY MEMBERS - RESPONSIVE
+   ========================================= */
+
+@media (max-width: 900px) {
+  .trainer-members-header {
+    flex-direction: column;
+  }
+
+  .trainer-refresh-btn {
+    align-self: flex-start;
+  }
+
+  .trainer-member-summary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .trainer-members-header h1 {
+    font-size: 26px;
+  }
+
+  .trainer-members-card-header {
+    padding: 18px;
+  }
+
+  .trainer-members-table th,
+  .trainer-members-table td {
+    padding: 13px 15px;
+  }
+
+  .trainer-member-avatar {
+    width: 36px;
+    height: 36px;
+  }
+}
+/* =========================================
+   MEMBER DETAILS POPUP
+   ========================================= */
+
+.trainer-member-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(3, 7, 15, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+.trainer-member-modal {
+  width: 100%;
+  max-width: 560px;
+
+  background: #111b2c;
+
+  border: 1px solid rgba(83, 137, 218, 0.25);
+  border-radius: 18px;
+
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(38, 120, 237, 0.08);
+
+  overflow: hidden;
+}
+
+/* Header */
+
+.trainer-member-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  padding: 24px;
+
+  border-bottom: 1px solid rgba(105, 126, 159, 0.13);
+}
+
+.trainer-member-modal-header p {
+  margin: 0 0 5px;
+
+  color: #4d9cff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.trainer-member-modal-header h2 {
+  margin: 0;
+
+  color: #ffffff;
+  font-size: 21px;
+}
+
+.trainer-modal-close {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(118, 137, 168, 0.16);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #9aa8bd;
+  font-size: 14px;
+
+  cursor: pointer;
+}
+
+.trainer-modal-close:hover {
+  background: rgba(239, 91, 91, 0.12);
+  color: #ff9696;
+}
+
+/* Profile */
+
+.trainer-modal-profile {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  padding: 24px;
+}
+
+.trainer-modal-avatar {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: linear-gradient(
+    135deg,
+    #2678ed,
+    #174b9e
+  );
+
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.trainer-modal-profile h3 {
+  margin: 0 0 5px;
+
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.trainer-modal-profile span {
+  color: #77869e;
+  font-size: 11px;
+}
+
+/* Details */
+
+.trainer-member-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  padding: 0 24px 24px;
+}
+
+.trainer-detail-box {
+  padding: 15px;
+
+  background: rgba(28, 41, 64, 0.7);
+
+  border: 1px solid rgba(94, 122, 159, 0.13);
+  border-radius: 11px;
+}
+
+.trainer-detail-box span {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #77869e;
+  font-size: 10px;
+}
+
+.trainer-detail-box strong {
+  display: block;
+
+  color: #e8eef7;
+  font-size: 13px;
+  font-weight: 600;
+
+  word-break: break-word;
+}
+
+/* Footer */
+
+.trainer-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 17px 24px;
+
+  background: rgba(10, 17, 29, 0.35);
+
+  border-top: 1px solid rgba(105, 126, 159, 0.11);
+}
+
+.trainer-modal-footer button {
+  padding: 9px 20px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #2678ed;
+
+  color: #ffffff;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  cursor: pointer;
+}
+
+.trainer-modal-footer button:hover {
+  background: #3388f7;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .trainer-member-modal {
+    max-width: 100%;
+  }
+
+  .trainer-member-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================================
+   WORKOUT PLANS - BLUE THEME
+========================================= */
+
+.workout-form-card {
+  background: #0f172a;
+  border: 1px solid #1e3a8a;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.workout-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.workout-form-header h2 {
+  margin: 0 0 6px;
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.workout-form-header p {
+  margin: 0;
+  color: #94a3b8;
+}
+
+.workout-close-btn {
+  border: 1px solid #334155;
+  background: #172554;
+  color: #93c5fd;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.workout-close-btn:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.workout-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.workout-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.workout-form-group.full-width {
+  width: 100%;
+}
+
+.workout-form-group label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #bfdbfe;
+}
+
+.workout-form-group input,
+.workout-form-group select,
+.workout-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  background: #020617;
+  color: #ffffff;
+}
+
+.workout-form-group input::placeholder,
+.workout-form-group textarea::placeholder {
+  color: #64748b;
+}
+
+.workout-form-group input:focus,
+.workout-form-group select:focus,
+.workout-form-group textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.workout-form-group select option {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.workout-form-group textarea {
+  resize: vertical;
+}
+
+.workout-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.workout-cancel-btn,
+.workout-save-btn {
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.workout-cancel-btn {
+  background: #172033;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+}
+
+.workout-cancel-btn:hover {
+  background: #1e293b;
+}
+
+.workout-save-btn {
+  background: #2563eb;
+  border: 1px solid #2563eb;
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(37, 99, 235, 0.25);
+}
+
+.workout-save-btn:hover {
+  background: #1d4ed8;
+}
+
+.workout-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Workout plan cards */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.content-card {
+  background: #0f172a;
+  border: 1px solid #1e3a8a;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.content-card:hover {
+  border-color: #2563eb;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.12);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-header h3 {
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #172554;
+  border: 1px solid #2563eb;
+  color: #60a5fa;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.card-body {
+  margin-top: 18px;
+}
+
+.card-body p {
+  margin: 10px 0;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.card-body strong {
+  color: #dbeafe;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.edit-btn {
+  background: #172554;
+  border: 1px solid #2563eb;
+  color: #60a5fa;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+  color: #ffffff;
+}
+
+.delete-btn {
+  background: #1e1b4b;
+  border: 1px solid #4338ca;
+  color: #a5b4fc;
+}
+
+.delete-btn:hover {
+  background: #3730a3;
+  color: #ffffff;
+}
+
+/* Empty state */
+
+.empty-state {
+  background: #0f172a;
+  border: 1px solid #1e3a8a;
+  border-radius: 18px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state h3 {
+  color: #ffffff;
+  margin: 15px 0 8px;
+}
+
+.empty-state p {
+  color: #64748b;
+}
+
+.empty-icon {
+  font-size: 48px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+  .workout-form-grid,
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .workout-form-card {
+    padding: 20px;
+  }
+
+  .workout-form-actions {
+    flex-direction: column;
+  }
+
+  .workout-cancel-btn,
+  .workout-save-btn {
+    width: 100%;
+  }
+}
+/* =========================================
+   ATTENDANCE PAGE - DARK BLUE THEME
+========================================= */
+
+.attendance-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5px 0 40px;
+  box-sizing: border-box;
+  color: #ffffff;
+  background: #050b16 !important;
+}
+
+/* Make sure parent area is also dark */
+.attendance-page,
+.attendance-page * {
+  box-sizing: border-box;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.attendance-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.attendance-header h1 {
+  margin: 5px 0 8px;
+  color: #ffffff !important;
+  font-size: 32px;
+  font-weight: 750;
+}
+
+.attendance-header p {
+  margin: 0;
+  color: #94a3b8 !important;
+  font-size: 14px;
+}
+
+.attendance-small-title {
+  margin: 0 !important;
+  color: #4d9cff !important;
+  font-size: 11px !important;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+/* =========================================
+   ADD ATTENDANCE BUTTON
+========================================= */
+
+.attendance-add-btn {
+  padding: 11px 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(77, 144, 255, 0.3);
+  background: #172554 !important;
+  color: #60a5fa !important;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.attendance-add-btn:hover {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   FORM CARD
+========================================= */
+
+.attendance-form-card {
+  width: 100%;
+  background: #0f172a !important;
+  border: 1px solid #1e3a8a !important;
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.attendance-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.attendance-form-header h2 {
+  margin: 0 0 6px;
+  color: #ffffff !important;
+  font-size: 24px;
+}
+
+.attendance-form-header p {
+  margin: 0;
+  color: #94a3b8 !important;
+}
+
+/* CLOSE BUTTON */
+
+.attendance-close-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  background: #172033 !important;
+  color: #93c5fd !important;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.attendance-close-btn:hover {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+/* =========================================
+   FORM GRID
+========================================= */
+
+.attendance-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.attendance-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.attendance-form-group label {
+  color: #bfdbfe !important;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.attendance-form-group input,
+.attendance-form-group select {
+  width: 100%;
+  padding: 13px 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  border: 1px solid #334155 !important;
+  outline: none;
+  background: #020617 !important;
+  color: #ffffff !important;
+  font-size: 14px;
+}
+
+.attendance-form-group input::placeholder {
+  color: #64748b !important;
+}
+
+.attendance-form-group input:focus,
+.attendance-form-group select:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.attendance-form-group select option {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+/* =========================================
+   FORM BUTTONS
+========================================= */
+
+.attendance-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 5px;
+}
+
+.attendance-cancel-btn,
+.attendance-save-btn {
+  padding: 12px 22px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.attendance-cancel-btn {
+  background: #172033 !important;
+  border: 1px solid #334155 !important;
+  color: #cbd5e1 !important;
+}
+
+.attendance-cancel-btn:hover {
+  background: #1e293b !important;
+}
+
+.attendance-save-btn {
+  background: #2563eb !important;
+  border: 1px solid #2563eb !important;
+  color: #ffffff !important;
+}
+
+.attendance-save-btn:hover {
+  background: #1d4ed8 !important;
+}
+
+/* =========================================
+   ATTENDANCE CARDS
+========================================= */
+
+.attendance-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.attendance-card {
+  background: #0f172a !important;
+  border: 1px solid #1e3a8a !important;
+  border-radius: 16px;
+  padding: 22px;
+  color: #ffffff !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  transition: 0.2s ease;
+}
+
+.attendance-card:hover {
+  border-color: #2563eb !important;
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.12);
+}
+
+/* =========================================
+   CARD HEADER
+========================================= */
+
+.attendance-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.attendance-card-header h3 {
+  margin: 0 0 8px;
+  color: #ffffff !important;
+  font-size: 17px;
+}
+
+.attendance-date {
+  color: #64748b !important;
+  font-size: 12px;
+}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.attendance-status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #172554 !important;
+  border: 1px solid #2563eb !important;
+  color: #60a5fa !important;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* =========================================
+   CARD BODY
+========================================= */
+
+.attendance-card-body {
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+.attendance-card-body p {
+  margin: 10px 0;
+  color: #94a3b8 !important;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.attendance-card-body strong {
+  color: #dbeafe !important;
+}
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.attendance-card-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.attendance-edit-btn,
+.attendance-delete-btn {
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.attendance-edit-btn {
+  background: #172554 !important;
+  border: 1px solid #2563eb !important;
+  color: #60a5fa !important;
+}
+
+.attendance-edit-btn:hover {
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+}
+
+.attendance-delete-btn {
+  background: #1e1b4b !important;
+  border: 1px solid #4338ca !important;
+  color: #a5b4fc !important;
+}
+
+.attendance-delete-btn:hover {
+  background: #3730a3 !important;
+  color: #ffffff !important;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.attendance-empty {
+  background: #0f172a !important;
+  border: 1px solid #1e3a8a !important;
+  border-radius: 18px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.attendance-empty-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.attendance-empty h3 {
+  margin: 10px 0 8px;
+  color: #ffffff !important;
+}
+
+.attendance-empty p {
+  color: #64748b !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 768px) {
+  .attendance-form-grid,
+  .attendance-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .attendance-form-card {
+    padding: 20px;
+  }
+
+  .attendance-form-actions {
+    flex-direction: column;
+  }
+
+  .attendance-cancel-btn,
+  .attendance-save-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .attendance-header {
+    flex-direction: column;
+  }
+
+  .attendance-header h1 {
+    font-size: 26px;
+  }
+
+  .attendance-card-header {
+    flex-direction: column;
+  }
+}
+/* =========================================
+   ATTENDANCE - DARK BLUE FIX
+========================================= */
+
+/* MAIN TRAINER AREA */
+.trainer-layout {
+  background: #050b16 !important;
+  color: #ffffff !important;
+}
+
+.trainer-main {
+  background: #050b16 !important;
+  color: #ffffff !important;
+}
+
+.trainer-content {
+  background: #050b16 !important;
+  color: #ffffff !important;
+}
+
+
+/* =========================================
+   ATTENDANCE PAGE
+========================================= */
+
+.attendance-page,
+.page-content {
+  background: #050b16 !important;
+  color: #ffffff !important;
+}
+
+
+/* =========================================
+   ATTENDANCE HEADER
+========================================= */
+
+.attendance-page h1,
+.page-content h1 {
+  color: #ffffff !important;
+}
+
+.attendance-page p,
+.page-content p {
+  color: #94a3b8 !important;
+}
+
+
+/* =========================================
+   ATTENDANCE CARDS
+========================================= */
+
+.attendance-card,
+.cards-grid .card,
+.content-card {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e3a8a !important;
+  border-radius: 16px;
+}
+
+
+/* =========================================
+   CARD TEXT
+========================================= */
+
+.attendance-card h3,
+.card h3,
+.content-card h2,
+.content-card h3 {
+  color: #ffffff !important;
+}
+
+.attendance-card p,
+.card p,
+.content-card p {
+  color: #94a3b8 !important;
+}
+
+
+/* =========================================
+   MEMBER NAME
+========================================= */
+
+.attendance-card strong,
+.card strong,
+.content-card strong {
+  color: #ffffff !important;
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+.attendance-date {
+  color: #64748b !important;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-card {
+  background: #0f172a !important;
+  color: #ffffff !important;
+  border: 1px solid #1e3a8a !important;
+}
+
+.form-card h2 {
+  color: #ffffff !important;
+}
+
+.form-card p {
+  color: #94a3b8 !important;
+}
+
+.form-group label {
+  color: #bfdbfe !important;
+}
+
+.form-group input,
+.form-group select {
+  background: #020617 !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+}
+
+.form-group input::placeholder {
+  color: #64748b !important;
+}
+
+.form-group select option {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+
+/* =========================================
+   MARK ATTENDANCE BUTTON
+========================================= */
+
+.primary-btn {
+  background: #2563eb !important;
+  color: #ffffff !important;
+  border: 1px solid #2563eb !important;
+}
+
+.primary-btn:hover {
+  background: #1d4ed8 !important;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status,
+.status.present {
+  background: #172554 !important;
+  color: #60a5fa !important;
+  border: 1px solid #2563eb !important;
+}
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.edit-btn {
+  background: #172554 !important;
+  color: #60a5fa !important;
+  border: 1px solid #2563eb !important;
+}
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.delete-btn {
+  background: #1e1b4b !important;
+  color: #a5b4fc !important;
+  border: 1px solid #4338ca !important;
+}
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+.table-container {
+  background: #0f172a !important;
+}
+
+.table-container table {
+  background: #0f172a !important;
+  color: #ffffff !important;
+}
+
+.table-container th {
+  background: #172033 !important;
+  color: #93c5fd !important;
+}
+
+.table-container td {
+  background: #0f172a !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.08) !important;
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-state {
+  background: #0f172a !important;
+  color: #64748b !important;
+}
+/* =========================================
+   FIX ATTENDANCE FULL DARK BACKGROUND
+========================================= */
+
+.attendance-page {
+  min-height: calc(100vh - 80px) !important;
+  width: 100%;
+  background: #050b16 !important;
+  color: #f8fafc;
+  padding-bottom: 60px;
+}
+
+/* Keep the whole Trainer content area dark */
+.trainer-layout,
+.trainer-main,
+.trainer-content {
+  background: #050b16 !important;
+}
+
+/* Prevent white showing below the page */
+html,
+body,
+#root {
+  background: #050b16 !important;
+  min-height: 100%;
 }

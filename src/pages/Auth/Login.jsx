@@ -4,33 +4,34 @@ import "./Auth.css";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [agree, setAgree] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  // ================================
+  // LOGIN
+  // ================================
   const handleLogin = (e) => {
     e.preventDefault();
 
     setError("");
     setSuccess("");
 
+    // Check empty fields
     if (!email || !password) {
       setError("Please enter your email and password.");
       return;
     }
 
+    // Check email
     if (!email.includes("@")) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    if (!agree) {
-      setError("Please accept the Terms & Conditions.");
-      return;
-    }
-
-    // DEMO ADMIN ACCOUNT
+    // ================================
+    // ADMIN LOGIN
+    // ================================
     if (
       email === "admin@gmail.com" &&
       password === "admin123"
@@ -55,7 +56,9 @@ function Login() {
       return;
     }
 
-    // REGISTERED USER
+    // ================================
+    // REGISTERED USER LOGIN
+    // ================================
     const savedUser = localStorage.getItem("gymUser");
 
     if (savedUser) {
@@ -89,6 +92,28 @@ function Login() {
     setError("Invalid email or password.");
   };
 
+  // ================================
+  // FORGOT PASSWORD
+  // ================================
+  const handleForgotPassword = () => {
+    setError("");
+    setSuccess("");
+
+    if (!email) {
+      setError("Please enter your email address first.");
+      return;
+    }
+
+    if (!email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    setSuccess(
+      "Password reset instructions will be sent to your email."
+    );
+  };
+
   return (
     <div className="auth-page">
 
@@ -96,15 +121,23 @@ function Login() {
       <div className="auth-glow auth-glow-one"></div>
       <div className="auth-glow auth-glow-two"></div>
 
-      {/* Left side */}
+      {/* =========================================
+          LEFT SIDE
+      ========================================= */}
+
       <div className="auth-brand">
 
         <a href="/" className="auth-logo">
-          <span className="logo-icon">🏋️</span>
+
+          <span className="logo-icon">
+            🏋️
+          </span>
+
           <span>
             GYM
             <strong> MANAGEMENT</strong>
           </span>
+
         </a>
 
         <div className="auth-brand-content">
@@ -127,27 +160,42 @@ function Login() {
           <div className="auth-features">
 
             <div className="auth-feature">
+
               <span>✓</span>
+
               <div>
                 <strong>Easy Management</strong>
-                <small>Everything in one place</small>
+                <small>
+                  Everything in one place
+                </small>
               </div>
+
             </div>
 
             <div className="auth-feature">
+
               <span>✓</span>
+
               <div>
                 <strong>Track Progress</strong>
-                <small>Stay on top of your goals</small>
+                <small>
+                  Stay on top of your goals
+                </small>
               </div>
+
             </div>
 
             <div className="auth-feature">
+
               <span>✓</span>
+
               <div>
                 <strong>Smart Dashboard</strong>
-                <small>Powerful gym analytics</small>
+                <small>
+                  Powerful gym analytics
+                </small>
               </div>
+
             </div>
 
           </div>
@@ -156,48 +204,76 @@ function Login() {
 
       </div>
 
-      {/* Login card */}
+      {/* =========================================
+          RIGHT SIDE
+      ========================================= */}
+
       <div className="auth-right">
 
         <div className="auth-card">
 
+          {/* Mobile logo */}
           <div className="mobile-logo">
             <span>🏋️</span>
           </div>
 
+          {/* Header */}
           <div className="auth-card-header">
-            <h1>Welcome Back 👋</h1>
+
+            <h1>
+              Welcome Back 👋
+            </h1>
 
             <p>
               Login to continue to your dashboard
             </p>
+
           </div>
+
+          {/* =========================================
+              LOGIN FORM
+          ========================================= */}
 
           <form onSubmit={handleLogin}>
 
+            {/* EMAIL */}
             <div className="input-group">
 
-              <label>Email / Login ID</label>
+              <label>
+                Email / Login ID
+              </label>
 
               <div className="input-wrapper">
-                <span className="input-icon">✉️</span>
+
+                <span className="input-icon">
+                  ✉️
+                </span>
 
                 <input
                   type="email"
                   placeholder="Enter your email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
                 />
+
               </div>
 
             </div>
 
+            {/* PASSWORD */}
             <div className="input-group">
 
-              <label>Password</label>
+              <label>
+                Password
+              </label>
 
               <div className="input-wrapper">
-                <span className="input-icon">🔒</span>
+
+                <span className="input-icon">
+                  🔒
+                </span>
 
                 <input
                   type="password"
@@ -207,81 +283,70 @@ function Login() {
                     setPassword(e.target.value)
                   }
                 />
+
               </div>
 
             </div>
 
-            <div className="terms-row">
+            {/* FORGOT PASSWORD */}
+            <div className="forgot-password-row">
 
-              <input
-                type="checkbox"
-                checked={agree}
-                onChange={(e) =>
-                  setAgree(e.target.checked)
-                }
-              />
-
-              <span>
-                I agree to{" "}
-                <a href="/terms">
-                  Terms & Conditions
-                </a>
-              </span>
+              <button
+                type="button"
+                className="forgot-password"
+                onClick={handleForgotPassword}
+              >
+                Forgot Password?
+              </button>
 
             </div>
 
+            {/* ERROR MESSAGE */}
             {error && (
               <div className="message error-message">
                 ❌ {error}
               </div>
             )}
 
+            {/* SUCCESS MESSAGE */}
             {success && (
               <div className="message success-message">
                 ✅ {success}
               </div>
             )}
 
+            {/* LOGIN BUTTON */}
             <button
               type="submit"
               className="auth-submit"
             >
+
               Login to Dashboard
-              <span>→</span>
+
+              <span>
+                →
+              </span>
+
             </button>
 
           </form>
 
-          <div className="divider">
-            <span>Demo Access</span>
-          </div>
-
-          <div className="demo-login">
-
-            <div className="demo-title">
-              🔐 Demo Admin Account
-            </div>
-
-            <div className="demo-details">
-              <div>
-                <span>Email</span>
-                <strong>admin@gmail.com</strong>
-              </div>
-
-              <div>
-                <span>Password</span>
-                <strong>admin123</strong>
-              </div>
-            </div>
-
-          </div>
-
+          {/* REGISTER */}
           <p className="auth-link">
+
             Don't have an account?
-            <a href="/register"> Create Account</a>
+
+            <a href="/register">
+              {" "}Create Account
+            </a>
+
           </p>
 
-          <a href="/" className="back-home">
+          {/* BACK HOME */}
+          <a
+            href="/"
+            className="back-home"
+          >
             ← Back to Home
           </a>
 
