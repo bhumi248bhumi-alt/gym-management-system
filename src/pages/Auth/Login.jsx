@@ -1,134 +1,365 @@
 import { useState } from "react";
 import "./Auth.css";
+import { supabase } from "../../lib/supabase";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState("");
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  // ================================
-  // LOGIN
-  // ================================
-  const handleLogin = (e) => {
+  const roles = [
+    {
+      name: "Admin",
+      icon: "👑",
+      description: "Manage complete gym system",
+    },
+    {
+      name: "Trainer",
+      icon: "🏋️",
+      description: "Manage members and workouts",
+    },
+    {
+      name: "Member",
+      icon: "💪",
+      description: "View membership and progress",
+    },
+    {
+      name: "Doctor",
+      icon: "🩺",
+      description: "Manage patients and records",
+    },
+    {
+      name: "Patient",
+      icon: "🧑‍⚕️",
+      description: "View appointments and history",
+    },
+  ];
+
+  const getDashboardPath = (role) => {
+    switch (role) {
+      case "Admin":
+        return "/admin";
+
+      case "Trainer":
+        return "/trainer";
+
+      case "Member":
+        return "/member";
+
+      case "Doctor":
+        return "/doctor";
+
+      case "Patient":
+        return "/patient";
+
+      default:
+        return "/";
+    }
+  };
+
+  const saveUserAndRedirect = async (user, role) => {
+    // Get profile
+    const {
+      data: profile,
+      error: profileError,
+    } = await supabase
+      .from("profiles")
+      .select("id, name, email, phone, role")
+      .eq("id", user.id)
+      .single();
+
+    if (profileError || !profile) {
+      console.error("Profile fetch error:", profileError);
+
+      await supabase.auth.signOut();
+
+      throw new Error(
+        "Your account profile could not be found. Please register again."
+      );
+    }
+
+    // If account does not have a role yet,
+    // assign the selected role.
+    if (!profile.role) {
+      const {
+        data: updatedProfile,
+        error: updateError,
+      } = await supabase
+        .from("profiles")
+        .update({
+          role: role,
+        })
+        .eq("id", user.id)
+        .select("id, name, email, phone, role")
+        .single();
+
+      if (updateError) {
+        console.error("Role assignment error:", updateError);
+
+        await supabase.auth.signOut();
+
+        throw new Error(
+          "Unable to assign your selected role."
+        );
+      }
+
+      Object.assign(profile, updatedProfile);
+    }
+
+    // Existing account has a different role
+    if (profile.role !== role) {
+      await supabase.auth.signOut();
+
+      throw new Error(
+        `This account is registered as ${profile.role}. You cannot login as ${role}.`
+      );
+    }
+
+    // Save current user
+    const currentUser = {
+      id: profile.id,
+      name: profile.name,
+      email: profile.email,
+      phone: profile.phone,
+      role: profile.role,
+    };
+
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(currentUser)
+    );
+
+    return profile;
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     setError("");
     setSuccess("");
 
-    // Check empty fields
-    if (!email || !password) {
-      setError("Please enter your email and password.");
+    // -----------------------------
+    // VALIDATION
+    // -----------------------------
+
+    if (!email.trim()) {
+      setError("Please enter your email address.");
       return;
     }
 
-    // Check email
-    if (!email.includes("@")) {
+    if (!password) {
+      setError("Please enter your password.");
+      return;
+    }
+
+    const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email.trim())) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    // ================================
-    // ADMIN LOGIN
-    // ================================
-    if (
-      email === "admin@gmail.com" &&
-      password === "admin123"
-    ) {
-      const adminUser = {
-        name: "Admin",
-        email: "admin@gmail.com",
-        role: "Admin",
-      };
-
-      localStorage.setItem(
-        "currentUser",
-        JSON.stringify(adminUser)
-      );
-
-      setSuccess("Login successful! Redirecting...");
-
-      setTimeout(() => {
-        window.location.href = "/role-selection";
-      }, 800);
-
+    if (!selectedRole) {
+      setError("Please select your login role.");
       return;
     }
 
-    // ================================
-    // REGISTERED USER LOGIN
-    // ================================
-    const savedUser = localStorage.getItem("gymUser");
+    try {
+      setLoading(true);
 
-    if (savedUser) {
-      const user = JSON.parse(savedUser);
+      const cleanEmail = email.trim().toLowerCase();
 
-      if (
-        email === user.email &&
-        password === user.password
-      ) {
-        const currentUser = {
-          name: user.name,
-          email: user.email,
-          role: user.role || "Member",
-        };
+      console.log("Logging in...");
 
-        localStorage.setItem(
-          "currentUser",
-          JSON.stringify(currentUser)
+      // =====================================================
+      // STEP 1: TRY NORMAL LOGIN
+      // =====================================================
+
+      const {
+        data: loginData,
+        error: loginError,
+      } = await supabase.auth.signInWithPassword({
+        email: cleanEmail,
+        password: password,
+      });
+
+      // =====================================================
+      // STEP 2: EXISTING USER LOGIN SUCCESS
+      // =====================================================
+
+      if (!loginError && loginData?.user) {
+        console.log(
+          "Existing user authenticated:",
+          loginData.user
         );
 
-        setSuccess("Login successful! Redirecting...");
+        const profile = await saveUserAndRedirect(
+          loginData.user,
+          selectedRole
+        );
+
+        setSuccess(
+          `Login successful! Welcome ${profile.name}.`
+        );
+
+        const dashboardPath =
+          getDashboardPath(profile.role);
 
         setTimeout(() => {
-          window.location.href = "/role-selection";
-        }, 800);
+          window.location.href = dashboardPath;
+        }, 500);
 
         return;
       }
+
+      // =====================================================
+      // STEP 3: IF LOGIN FAILED, TRY CREATING ACCOUNT
+      // =====================================================
+
+      if (
+        loginError?.message ===
+        "Invalid login credentials"
+      ) {
+        console.log(
+          "Login failed. Checking whether this is a new account..."
+        );
+
+        const {
+          data: signUpData,
+          error: signUpError,
+        } = await supabase.auth.signUp({
+          email: cleanEmail,
+          password: password,
+          options: {
+            data: {
+              name: cleanEmail.split("@")[0],
+              phone: "",
+            },
+          },
+        });
+
+        // =================================================
+        // NEW ACCOUNT CREATED
+        // =================================================
+
+        if (!signUpError && signUpData?.user) {
+          console.log(
+            "New account created:",
+            signUpData.user
+          );
+
+          // If Supabase returned a session,
+          // continue immediately.
+          if (signUpData.session) {
+            const profile =
+              await saveUserAndRedirect(
+                signUpData.user,
+                selectedRole
+              );
+
+            setSuccess(
+              `Account created successfully! Welcome ${profile.name}.`
+            );
+
+            const dashboardPath =
+              getDashboardPath(profile.role);
+
+            setTimeout(() => {
+              window.location.href =
+                dashboardPath;
+            }, 500);
+
+            return;
+          }
+
+          // If confirmation is enabled accidentally
+          setError(
+            "Account was created, but Supabase is asking for email confirmation. Please turn off Confirm Email in Supabase Authentication settings."
+          );
+
+          return;
+        }
+
+        // =================================================
+        // USER ALREADY EXISTS
+        // =================================================
+
+        if (
+          signUpError?.message?.toLowerCase().includes(
+            "already registered"
+          ) ||
+          signUpError?.message?.toLowerCase().includes(
+            "already exists"
+          )
+        ) {
+          setError(
+            "This email already has an account, but the password is incorrect. Please use the correct password or reset the password in Supabase."
+          );
+
+          return;
+        }
+
+        // Other signup error
+        console.error(
+          "Automatic account creation error:",
+          signUpError
+        );
+
+        setError(
+          signUpError?.message ||
+            "Unable to create the account."
+        );
+
+        return;
+      }
+
+      // =====================================================
+      // OTHER LOGIN ERROR
+      // =====================================================
+
+      console.error(
+        "Login error:",
+        loginError
+      );
+
+      setError(
+        loginError?.message ||
+          "Unable to login. Please try again."
+      );
+    } catch (err) {
+      console.error(
+        "Unexpected login error:",
+        err
+      );
+
+      setError(
+        err.message ||
+          "Something went wrong during login."
+      );
+    } finally {
+      setLoading(false);
     }
-
-    setError("Invalid email or password.");
-  };
-
-  // ================================
-  // FORGOT PASSWORD
-  // ================================
-  const handleForgotPassword = () => {
-    setError("");
-    setSuccess("");
-
-    if (!email) {
-      setError("Please enter your email address first.");
-      return;
-    }
-
-    if (!email.includes("@")) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-
-    setSuccess(
-      "Password reset instructions will be sent to your email."
-    );
   };
 
   return (
     <div className="auth-page">
 
-      {/* Background decoration */}
+      {/* Background */}
       <div className="auth-glow auth-glow-one"></div>
       <div className="auth-glow auth-glow-two"></div>
 
-      {/* =========================================
-          LEFT SIDE
-      ========================================= */}
-
+      {/* LEFT SIDE */}
       <div className="auth-brand">
 
-        <a href="/" className="auth-logo">
-
+        <a
+          href="/"
+          className="auth-logo"
+        >
           <span className="logo-icon">
             🏋️
           </span>
@@ -137,7 +368,6 @@ function Login() {
             GYM
             <strong> MANAGEMENT</strong>
           </span>
-
         </a>
 
         <div className="auth-brand-content">
@@ -149,75 +379,74 @@ function Login() {
           <h2>
             Welcome back.
             <br />
-            <span>Let's get stronger.</span>
+            <span>
+              Let's get stronger.
+            </span>
           </h2>
 
           <p>
-            Manage your fitness journey, memberships,
-            trainers and more — all in one powerful platform.
+            Manage your fitness journey,
+            memberships, trainers and more —
+            all in one powerful platform.
           </p>
 
           <div className="auth-features">
 
             <div className="auth-feature">
-
               <span>✓</span>
 
               <div>
-                <strong>Easy Management</strong>
+                <strong>
+                  Easy Management
+                </strong>
+
                 <small>
                   Everything in one place
                 </small>
               </div>
-
             </div>
 
             <div className="auth-feature">
-
               <span>✓</span>
 
               <div>
-                <strong>Track Progress</strong>
+                <strong>
+                  Track Progress
+                </strong>
+
                 <small>
                   Stay on top of your goals
                 </small>
               </div>
-
             </div>
 
             <div className="auth-feature">
-
               <span>✓</span>
 
               <div>
-                <strong>Smart Dashboard</strong>
+                <strong>
+                  Smart Dashboard
+                </strong>
+
                 <small>
                   Powerful gym analytics
                 </small>
               </div>
-
             </div>
 
           </div>
-
         </div>
-
       </div>
 
-      {/* =========================================
-          RIGHT SIDE
-      ========================================= */}
-
+      {/* RIGHT SIDE */}
       <div className="auth-right">
 
         <div className="auth-card">
 
-          {/* Mobile logo */}
           <div className="mobile-logo">
             <span>🏋️</span>
           </div>
 
-          {/* Header */}
           <div className="auth-card-header">
 
             <h1>
@@ -230,10 +459,109 @@ function Login() {
 
           </div>
 
-          {/* =========================================
-              LOGIN FORM
-          ========================================= */}
+          {/* ROLE SELECTION */}
+          <div
+            style={{
+              marginBottom: "22px",
+            }}
+          >
 
+            <label
+              style={{
+                display: "block",
+                marginBottom: "10px",
+                fontWeight: "600",
+              }}
+            >
+              Select Your Role
+            </label>
+
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(2, 1fr)",
+                gap: "10px",
+              }}
+            >
+
+              {roles.map((role) => (
+
+                <button
+                  key={role.name}
+                  type="button"
+                  onClick={() =>
+                    setSelectedRole(
+                      role.name
+                    )
+                  }
+                  style={{
+                    padding: "12px",
+                    borderRadius: "10px",
+
+                    border:
+                      selectedRole ===
+                      role.name
+                        ? "2px solid #2563eb"
+                        : "1px solid rgba(255,255,255,0.15)",
+
+                    background:
+                      selectedRole ===
+                      role.name
+                        ? "rgba(37,99,235,0.20)"
+                        : "rgba(255,255,255,0.05)",
+
+                    color: "white",
+                    cursor: "pointer",
+                    textAlign: "left",
+                  }}
+                >
+
+                  <div
+                    style={{
+                      fontSize: "20px",
+                      marginBottom: "4px",
+                    }}
+                  >
+                    {role.icon}{" "}
+                    <strong>
+                      {role.name}
+                    </strong>
+                  </div>
+
+                  <div
+                    style={{
+                      fontSize: "11px",
+                      opacity: 0.7,
+                    }}
+                  >
+                    {role.description}
+                  </div>
+
+                </button>
+
+              ))}
+
+            </div>
+
+            {selectedRole && (
+              <div
+                style={{
+                  marginTop: "10px",
+                  fontSize: "13px",
+                  color: "#60a5fa",
+                }}
+              >
+                Selected role:{" "}
+                <strong>
+                  {selectedRole}
+                </strong>
+              </div>
+            )}
+
+          </div>
+
+          {/* LOGIN FORM */}
           <form onSubmit={handleLogin}>
 
             {/* EMAIL */}
@@ -254,7 +582,9 @@ function Login() {
                   placeholder="Enter your email"
                   value={email}
                   onChange={(e) =>
-                    setEmail(e.target.value)
+                    setEmail(
+                      e.target.value
+                    )
                   }
                 />
 
@@ -280,7 +610,9 @@ function Login() {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) =>
-                    setPassword(e.target.value)
+                    setPassword(
+                      e.target.value
+                    )
                   }
                 />
 
@@ -288,44 +620,34 @@ function Login() {
 
             </div>
 
-            {/* FORGOT PASSWORD */}
-            <div className="forgot-password-row">
-
-              <button
-                type="button"
-                className="forgot-password"
-                onClick={handleForgotPassword}
-              >
-                Forgot Password?
-              </button>
-
-            </div>
-
-            {/* ERROR MESSAGE */}
+            {/* ERROR */}
             {error && (
               <div className="message error-message">
                 ❌ {error}
               </div>
             )}
 
-            {/* SUCCESS MESSAGE */}
+            {/* SUCCESS */}
             {success && (
               <div className="message success-message">
                 ✅ {success}
               </div>
             )}
 
-            {/* LOGIN BUTTON */}
+            {/* LOGIN */}
             <button
               type="submit"
               className="auth-submit"
+              disabled={loading}
             >
 
-              Login to Dashboard
+              {loading
+                ? "Checking account..."
+                : "Login to Dashboard"}
 
-              <span>
-                →
-              </span>
+              {!loading && (
+                <span>→</span>
+              )}
 
             </button>
 
@@ -342,7 +664,7 @@ function Login() {
 
           </p>
 
-          {/* BACK HOME */}
+          {/* HOME */}
           <a
             href="/"
             className="back-home"
@@ -351,7 +673,6 @@ function Login() {
           </a>
 
         </div>
-
       </div>
 
     </div>

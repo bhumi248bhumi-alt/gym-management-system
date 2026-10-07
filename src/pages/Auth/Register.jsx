@@ -1,109 +1,180 @@
 import { useState } from "react";
 import "./Auth.css";
+import { supabase } from "../../lib/supabase";
 
 function Register() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    agree: false,
-  });
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agree, setAgree] = useState(false);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-
-    setForm({
-      ...form,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  };
-
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     setError("");
     setSuccess("");
 
-    // Required fields
-    if (
-      !form.name ||
-      !form.email ||
-      !form.password ||
-      !form.confirmPassword
-    ) {
-      setError("Please fill in all required fields.");
+    // -----------------------------
+    // VALIDATION
+    // -----------------------------
+
+    if (!name.trim()) {
+      setError("Please enter your name.");
       return;
     }
 
-    // Email validation
-    if (!form.email.includes("@")) {
+    if (!email.trim()) {
+      setError("Please enter your email address.");
+      return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email.trim())) {
       setError("Please enter a valid email address.");
       return;
     }
 
-    // Password length
-    if (form.password.length < 6) {
-      setError("Password must contain at least 6 characters.");
+    if (!phone.trim()) {
+      setError("Please enter your phone number.");
       return;
     }
 
-    // Confirm password
-    if (form.password !== form.confirmPassword) {
+    if (!password) {
+      setError("Please enter a password.");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Terms
-    if (!form.agree) {
+    if (!agree) {
       setError("Please accept the Terms & Conditions.");
       return;
     }
 
-    // Save user
-    const user = {
-      name: form.name,
-      email: form.email,
-      password: form.password,
-      role: "Member",
-    };
+    try {
+      setLoading(true);
 
-    localStorage.setItem(
-      "gymUser",
-      JSON.stringify(user)
-    );
+      console.log("Creating Supabase account...");
 
-    setSuccess(
-      "Registration successful! You can now login."
-    );
+      // -----------------------------
+      // CREATE AUTH USER
+      // -----------------------------
 
-    // Clear form
-    setForm({
-      name: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      agree: false,
-    });
+      const { data, error: signUpError } =
+        await supabase.auth.signUp({
+          email: email.trim(),
+          password: password,
+          options: {
+            data: {
+              name: name.trim(),
+              phone: phone.trim(),
+            },
+          },
+        });
+
+      if (signUpError) {
+        console.error("Registration error:", signUpError);
+        setError(signUpError.message);
+        return;
+      }
+
+      if (!data.user) {
+        setError("Unable to create your account.");
+        return;
+      }
+
+      console.log("Auth user created:", data.user);
+
+      // -----------------------------
+      // PROFILE
+      // -----------------------------
+
+      // Because email confirmation is OFF,
+      // the user should have an active session.
+      //
+      // The trigger should already create
+      // the profile automatically.
+      //
+      // We update the profile with the
+      // latest name/phone information.
+
+      const {
+        data: profile,
+        error: profileError,
+      } = await supabase
+        .from("profiles")
+        .update({
+          name: name.trim(),
+          phone: phone.trim(),
+          email: email.trim(),
+        })
+        .eq("id", data.user.id)
+        .select()
+        .single();
+
+      if (profileError) {
+        console.error("Profile update error:", profileError);
+
+        // Don't fail registration completely.
+        // The Auth account was already created.
+        console.warn(
+          "Auth account created, but profile update failed."
+        );
+      } else {
+        console.log("Profile created/updated:", profile);
+      }
+
+      // -----------------------------
+      // SUCCESS
+      // -----------------------------
+
+      setSuccess(
+        "Account created successfully! You can now login."
+      );
+
+      // Clear form
+      setName("");
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setConfirmPassword("");
+      setAgree(false);
+
+    } catch (err) {
+      console.error("Unexpected registration error:", err);
+
+      setError(
+        err.message ||
+          "Something went wrong during registration."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="auth-page">
 
-      {/* Background effects */}
-      <div className="auth-bg-image"></div>
-      <div className="auth-overlay"></div>
-
+      {/* Background decoration */}
       <div className="auth-glow auth-glow-one"></div>
       <div className="auth-glow auth-glow-two"></div>
 
-      {/* =====================================
-          LEFT BRAND SECTION
-      ===================================== */}
-
+      {/* LEFT SIDE */}
       <div className="auth-brand">
 
         <a href="/" className="auth-logo">
@@ -122,15 +193,15 @@ function Register() {
           </div>
 
           <h2>
-            Build your body.
+            Start your journey.
             <br />
-            <span>Build your future.</span>
+            <span>Build your best self.</span>
           </h2>
 
           <p>
-            Create your account and take control of
-            your fitness journey with our complete
-            gym management platform.
+            Create your account and manage your
+            fitness journey, membership and progress
+            in one powerful platform.
           </p>
 
           <div className="auth-features">
@@ -139,9 +210,9 @@ function Register() {
               <span>✓</span>
 
               <div>
-                <strong>Manage Everything</strong>
+                <strong>Easy Management</strong>
                 <small>
-                  Members, trainers and memberships
+                  Everything in one place
                 </small>
               </div>
             </div>
@@ -150,9 +221,9 @@ function Register() {
               <span>✓</span>
 
               <div>
-                <strong>Track Your Progress</strong>
+                <strong>Track Progress</strong>
                 <small>
-                  Stay focused on your fitness goals
+                  Stay on top of your goals
                 </small>
               </div>
             </div>
@@ -161,54 +232,46 @@ function Register() {
               <span>✓</span>
 
               <div>
-                <strong>Powerful Dashboard</strong>
+                <strong>Smart Dashboard</strong>
                 <small>
-                  Smart insights and gym analytics
+                  Powerful gym management
                 </small>
               </div>
             </div>
 
           </div>
-
         </div>
-
       </div>
 
-      {/* =====================================
-          REGISTER SECTION
-      ===================================== */}
-
+      {/* RIGHT SIDE */}
       <div className="auth-right">
 
-        <div className="auth-card register-card">
+        <div className="auth-card">
 
-          {/* Mobile logo */}
           <div className="mobile-logo">
-            🏋️
+            <span>🏋️</span>
           </div>
 
           <div className="auth-card-header">
 
-            <div className="form-step">
-              <span>01</span>
-              <div></div>
-              <span>Account</span>
-            </div>
-
-            <h1>Create Your Account</h1>
+            <h1>
+              Create Account 🚀
+            </h1>
 
             <p>
-              Join us and start your fitness journey today.
+              Register to start using the gym management system
             </p>
 
           </div>
 
           <form onSubmit={handleRegister}>
 
-            {/* Name */}
+            {/* NAME */}
             <div className="input-group">
 
-              <label>Full Name</label>
+              <label>
+                Full Name
+              </label>
 
               <div className="input-wrapper">
 
@@ -218,20 +281,23 @@ function Register() {
 
                 <input
                   type="text"
-                  name="name"
                   placeholder="Enter your full name"
-                  value={form.name}
-                  onChange={handleChange}
+                  value={name}
+                  onChange={(e) =>
+                    setName(e.target.value)
+                  }
                 />
 
               </div>
 
             </div>
 
-            {/* Email */}
+            {/* EMAIL */}
             <div className="input-group">
 
-              <label>Email Address</label>
+              <label>
+                Email Address
+              </label>
 
               <div className="input-wrapper">
 
@@ -241,122 +307,185 @@ function Register() {
 
                 <input
                   type="email"
-                  name="email"
                   placeholder="Enter your email"
-                  value={form.email}
-                  onChange={handleChange}
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
                 />
 
               </div>
 
             </div>
 
-            {/* Password row */}
-            <div className="register-input-row">
+            {/* PHONE */}
+            <div className="input-group">
 
-              <div className="input-group">
+              <label>
+                Phone Number
+              </label>
 
-                <label>Password</label>
+              <div className="input-wrapper">
 
-                <div className="input-wrapper">
+                <span className="input-icon">
+                  📱
+                </span>
 
-                  <span className="input-icon">
-                    🔒
-                  </span>
-
-                  <input
-                    type="password"
-                    name="password"
-                    placeholder="Minimum 6 characters"
-                    value={form.password}
-                    onChange={handleChange}
-                  />
-
-                </div>
-
-              </div>
-
-              <div className="input-group">
-
-                <label>Confirm Password</label>
-
-                <div className="input-wrapper">
-
-                  <span className="input-icon">
-                    🔐
-                  </span>
-
-                  <input
-                    type="password"
-                    name="confirmPassword"
-                    placeholder="Confirm password"
-                    value={form.confirmPassword}
-                    onChange={handleChange}
-                  />
-
-                </div>
+                <input
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  value={phone}
+                  onChange={(e) =>
+                    setPhone(e.target.value)
+                  }
+                />
 
               </div>
 
             </div>
 
-            {/* Terms */}
-            <div className="terms-row">
+            {/* PASSWORD */}
+            <div className="input-group">
+
+              <label>
+                Password
+              </label>
+
+              <div className="input-wrapper">
+
+                <span className="input-icon">
+                  🔒
+                </span>
+
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                />
+
+              </div>
+
+            </div>
+
+            {/* CONFIRM PASSWORD */}
+            <div className="input-group">
+
+              <label>
+                Confirm Password
+              </label>
+
+              <div className="input-wrapper">
+
+                <span className="input-icon">
+                  🔐
+                </span>
+
+                <input
+                  type="password"
+                  placeholder="Confirm password"
+                  value={confirmPassword}
+                  onChange={(e) =>
+                    setConfirmPassword(e.target.value)
+                  }
+                />
+
+              </div>
+
+            </div>
+
+            {/* TERMS */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                marginBottom: "20px",
+              }}
+            >
 
               <input
                 type="checkbox"
-                name="agree"
-                checked={form.agree}
-                onChange={handleChange}
+                checked={agree}
+                onChange={(e) =>
+                  setAgree(e.target.checked)
+                }
               />
 
-              <span>
-                I agree to{" "}
-                <a href="/terms">
+              <span
+                style={{
+                  fontSize: "13px",
+                  color: "#cbd5e1",
+                }}
+              >
+                I agree to the{" "}
+                <a
+                  href="/terms"
+                  style={{
+                    color: "#60a5fa",
+                  }}
+                >
                   Terms & Conditions
                 </a>
               </span>
 
             </div>
 
-            {/* Error */}
+            {/* ERROR */}
             {error && (
               <div className="message error-message">
                 ❌ {error}
               </div>
             )}
 
-            {/* Success */}
+            {/* SUCCESS */}
             {success && (
               <div className="message success-message">
                 ✅ {success}
               </div>
             )}
 
-            {/* Submit */}
+            {/* REGISTER BUTTON */}
             <button
               type="submit"
               className="auth-submit"
+              disabled={loading}
             >
-              Create My Account
-              <span>→</span>
+
+              {loading
+                ? "Creating Account..."
+                : "Create Account"}
+
+              {!loading && (
+                <span>→</span>
+              )}
+
             </button>
 
           </form>
 
-          {/* Login */}
+          {/* LOGIN LINK */}
           <p className="auth-link">
+
             Already have an account?
-            <a href="/login"> Login here</a>
+
+            <a href="/login">
+              {" "}Login
+            </a>
+
           </p>
 
-          {/* Home */}
-          <a href="/" className="back-home">
+          {/* HOME */}
+          <a
+            href="/"
+            className="back-home"
+          >
             ← Back to Home
           </a>
 
         </div>
-
       </div>
 
     </div>
