@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import Home from "./pages/Home/Home";
 import Login from "./pages/Auth/Login";
+import ForgotPassword from "./ForgotPassword";
 import Register from "./pages/Auth/Register";
 import Terms from "./pages/Auth/Terms";
 import RoleSelection from "./pages/RoleSelection/RoleSelection";
@@ -13,7 +14,10 @@ import Doctor from "./pages/Doctor/Doctor";
 import Member from "./pages/Member/Member";
 import Patient from "./pages/Patient/PatientDashboard";
 
+
+
 import { supabase } from "./lib/supabase";
+
 
 function App() {
   const [checkingAuth, setCheckingAuth] = useState(true);
@@ -62,10 +66,16 @@ function App() {
     path === "/login" ||
     path === "/register" ||
     path === "/terms" ||
+    path === "/forgot-password" ||
     path === "/role-selection"
+    
   ) {
     if (path === "/login") {
       return <Login />;
+    }
+
+    if (path === "/forgot-password") {
+      return <ForgotPassword />;
     }
 
     if (path === "/register") {

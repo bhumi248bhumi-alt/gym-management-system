@@ -8,3 +8,355 @@ body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* ===== Forgot Password Page ===== */
+
+.forgot-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  box-sizing: border-box;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(37, 99, 235, 0.18),
+      transparent 42%
+    ),
+    linear-gradient(135deg, #071426 0%, #0b1220 100%);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #f8fafc;
+}
+
+.forgot-card {
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+  box-sizing: border-box;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 22px;
+  background: rgba(15, 23, 42, 0.94);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+.forgot-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.16);
+  color: #60a5fa;
+  font-size: 28px;
+}
+
+.forgot-card h2 {
+  margin: 0 0 12px;
+  color: #f8fafc;
+  font-size: 30px;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+
+.forgot-description {
+  margin: 0 0 28px;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.forgot-form label {
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.forgot-form input {
+  width: 100%;
+  height: 50px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border: 1px solid #29364b;
+  border-radius: 11px;
+  outline: none;
+  background: #101b2e;
+  color: #f8fafc;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.forgot-form input::placeholder {
+  color: #64748b;
+}
+
+.forgot-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.forgot-submit {
+  min-height: 50px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.forgot-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(37, 99, 235, 0.25);
+}
+
+.forgot-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.forgot-message {
+  margin: 18px 0 0;
+  padding: 13px 14px;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: 10px;
+  background: rgba(34, 197, 94, 0.08);
+  color: #86efac;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.forgot-error {
+  margin: 18px 0 0;
+  padding: 13px 14px;
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.forgot-footer {
+  margin: 25px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid #253147;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 13px;
+}
+
+.forgot-card a {
+  color: #60a5fa;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-card a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .forgot-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .forgot-card h2 {
+    font-size: 26px;
+  }
+}
+
+/* ===== Gym Management: Forgot Password ===== */
+
+.forgot-page {
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  background:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(37, 99, 235, 0.20),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #071426, #050b16 75%);
+  color: #f8fafc;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+.forgot-page .forgot-card {
+  width: 100%;
+  max-width: 460px;
+  padding: 40px;
+  box-sizing: border-box;
+  border: 1px solid #243247;
+  border-radius: 22px;
+  background: #0b1424;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.35);
+}
+
+.forgot-page .forgot-icon {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: 16px;
+  background: rgba(37, 99, 235, 0.15);
+  font-size: 27px;
+}
+
+.forgot-page .forgot-card h1 {
+  margin: 0 0 12px;
+  color: #f8fafc;
+  font-size: 30px;
+  line-height: 1.25;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+
+.forgot-page .forgot-description {
+  margin: 0 0 28px;
+  color: #94a3b8;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.forgot-page .forgot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.forgot-page .forgot-form label {
+  color: #e2e8f0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.forgot-page .forgot-form input {
+  display: block;
+  width: 100%;
+  height: 52px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border: 1px solid #29364b;
+  border-radius: 11px;
+  outline: none;
+  background: #101b2e;
+  color: #f8fafc;
+  font-family: inherit;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.forgot-page .forgot-form input::placeholder {
+  color: #64748b;
+}
+
+.forgot-page .forgot-form input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+}
+
+.forgot-page .forgot-submit {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 10px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.forgot-page .forgot-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.28);
+}
+
+.forgot-page .forgot-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.forgot-page .forgot-message,
+.forgot-page .forgot-error {
+  margin: 18px 0 0;
+  padding: 13px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.forgot-page .forgot-message {
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.08);
+  color: #86efac;
+}
+
+.forgot-page .forgot-error {
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+}
+
+.forgot-page .forgot-footer {
+  margin-top: 26px;
+  padding-top: 21px;
+  border-top: 1px solid #253147;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.forgot-page .forgot-footer a {
+  color: #60a5fa;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-page .forgot-footer a:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .forgot-page {
+    padding: 20px 14px;
+  }
+
+  .forgot-page .forgot-card {
+    padding: 28px 22px;
+    border-radius: 18px;
+  }
+
+  .forgot-page .forgot-card h1 {
+    font-size: 26px;
+  }
+}

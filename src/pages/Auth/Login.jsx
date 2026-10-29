@@ -612,9 +612,22 @@ function Login() {
                   onChange={(e) =>
                     setPassword(
                       e.target.value
+                      
                     )
                   }
-                />
+              />
+                  <div style={{ textAlign: "right", marginTop: "8px" }}>
+                  <a
+                  href="/forgot-password"
+                  style={{
+                  color: "#60a5fa",
+                  textDecoration: "none",
+                  fontSize: "14px",
+                }}
+              >
+                Forgot Password?
+            </a>
+</div>
 
               </div>
 
